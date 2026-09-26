@@ -18,6 +18,12 @@ if (!WASENDER_TOKEN || !MY_WHATSAPP_NUMBER) {
 app.use(cors());
 app.use(express.json({ limit: "20kb" }));
 
+// Serve index.html from the repository root
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
+
+// API status
 app.get("/api/status", (req, res) => {
     res.json({
         success: true,
@@ -26,6 +32,7 @@ app.get("/api/status", (req, res) => {
     });
 });
 
+// Send information to WhatsApp
 app.post("/api/send-device-info", async (req, res) => {
 
     try {
@@ -59,10 +66,12 @@ HZR 2010`;
             "https://api.wasender.dev/messages/text",
             {
                 method: "POST",
+
                 headers: {
                     "Authorization": `Bearer ${WASENDER_TOKEN}`,
                     "Content-Type": "application/json"
                 },
+
                 body: JSON.stringify({
                     to: MY_WHATSAPP_NUMBER,
                     body: message
@@ -89,7 +98,7 @@ HZR 2010`;
 
     } catch (error) {
 
-        console.error(error);
+        console.error("Server error:", error);
 
         res.status(500).json({
             success: false,
@@ -98,6 +107,6 @@ HZR 2010`;
     }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`HZR 2010 running on port ${PORT}`);
 });
