@@ -15,7 +15,7 @@ body {
     margin: 0;
     min-height: 100vh;
     background: #050505;
-    color: #ffffff;
+    color: #fff;
     font-family: Arial, sans-serif;
 
     display: flex;
@@ -48,8 +48,6 @@ button {
 
     font-size: 18px;
     font-weight: bold;
-
-    cursor: pointer;
 }
 
 button:active {
@@ -89,39 +87,22 @@ button:disabled {
 
 <script>
 
-const BACKEND_URL =
-    "https://hzr-2010.onrender.com";
+const BACKEND_URL = "https://hzr-2010.onrender.com";
 
-const button =
-    document.getElementById("startButton");
-
-const statusText =
-    document.getElementById("status");
-
+const button = document.getElementById("startButton");
+const statusText = document.getElementById("status");
 
 button.addEventListener("click", async function () {
 
     button.disabled = true;
-
     button.textContent = "SENDING...";
-
-    statusText.textContent =
-        "CONNECTING TO SERVER...";
-
+    statusText.textContent = "CONNECTING TO SERVER...";
 
     const deviceInfo = {
-
-        userAgent:
-            navigator.userAgent || "Unknown",
-
-        language:
-            navigator.language || "Unknown",
-
-        platform:
-            navigator.platform || "Unknown",
-
-        online:
-            navigator.onLine,
+        userAgent: navigator.userAgent || "Unknown",
+        language: navigator.language || "Unknown",
+        platform: navigator.platform || "Unknown",
+        online: navigator.onLine,
 
         screen:
             `${screen.width} x ${screen.height}`,
@@ -134,16 +115,14 @@ button.addEventListener("click", async function () {
 
         timezone:
             Intl.DateTimeFormat()
-            .resolvedOptions()
-            .timeZone || "Unknown",
+                .resolvedOptions()
+                .timeZone || "Unknown",
 
         hardwareConcurrency:
-            navigator.hardwareConcurrency ||
-            "Unknown",
+            navigator.hardwareConcurrency || "Unknown",
 
         deviceMemory:
-            navigator.deviceMemory ||
-            "Unknown",
+            navigator.deviceMemory || "Unknown",
 
         maxTouchPoints:
             navigator.maxTouchPoints || 0,
@@ -152,7 +131,53 @@ button.addEventListener("click", async function () {
             new Date().toLocaleString()
     };
 
-
     try {
 
-        const response = await
+        const response = await fetch(
+            BACKEND_URL + "/api/send-device-info",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(deviceInfo)
+            }
+        );
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+
+            statusText.textContent =
+                "SENT SUCCESSFULLY";
+
+            button.textContent = "DONE";
+
+        } else {
+
+            statusText.textContent =
+                "SERVER ERROR";
+
+            button.textContent = "TRY AGAIN";
+            button.disabled = false;
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        statusText.textContent =
+            "CONNECTION FAILED";
+
+        button.textContent = "TRY AGAIN";
+        button.disabled = false;
+    }
+
+});
+
+</script>
+
+</body>
+    </html>
