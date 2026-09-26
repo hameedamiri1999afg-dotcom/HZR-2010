@@ -18,7 +18,7 @@ if (!WASENDER_TOKEN || !MY_WHATSAPP_NUMBER) {
 app.use(cors());
 app.use(express.json({ limit: "20kb" }));
 
-// Serve index.html from the repository root
+// Website
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));
 });
@@ -32,8 +32,12 @@ app.get("/api/status", (req, res) => {
     });
 });
 
-// Send information to WhatsApp
+// Send browser information
 app.post("/api/send-device-info", async (req, res) => {
+
+    console.log("=================================");
+    console.log("DEVICE INFO REQUEST RECEIVED");
+    console.log("=================================");
 
     try {
 
@@ -62,6 +66,9 @@ Time: ${info.time || "Unknown"}
 -------------------------
 HZR 2010`;
 
+        console.log("Sending message to Wasender...");
+        console.log("Recipient:", MY_WHATSAPP_NUMBER);
+
         const response = await fetch(
             "https://api.wasender.dev/messages/text",
             {
@@ -79,11 +86,12 @@ HZR 2010`;
             }
         );
 
-        const result = await response.text();
+        const resultText = await response.text();
+
+        console.log("Wasender HTTP status:", response.status);
+        console.log("Wasender response:", resultText);
 
         if (!response.ok) {
-
-            console.error("Wasender error:", result);
 
             return res.status(502).json({
                 success: false,
@@ -91,9 +99,18 @@ HZR 2010`;
             });
         }
 
+        let result = {};
+
+        try {
+            result = JSON.parse(resultText);
+        } catch (e) {
+            console.log("Wasender response was not JSON.");
+        }
+
         res.json({
             success: true,
-            message: "Sent successfully"
+            message: "Sent successfully",
+            wasender: result
         });
 
     } catch (error) {
