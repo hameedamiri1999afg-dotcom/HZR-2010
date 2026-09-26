@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>HZR 2010</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #050505;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 90%;
+    max-width: 390px;
+    text-align: center;
+}
+
+.logo {
+    font-size: 42px;
+    font-weight: bold;
+    letter-spacing: 6px;
+    margin-bottom: 45px;
+}
+
+button {
+    width: 100%;
+    padding: 17px;
+
+    border: 1px solid #333;
+    border-radius: 12px;
+
+    background: #111;
+    color: #fff;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    opacity: 0.55;
+}
+
+.status {
+    margin-top: 20px;
+    color: #777;
+    font-size: 14px;
+    min-height: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        HZR 2010
+    </div>
+
+    <button id="startButton">
+        START
+    </button>
+
+    <div class="status" id="status">
+        READY
+    </div>
+
+</div>
+
+<script>
+
+const BACKEND_URL =
+    "https://hzr-2010.onrender.com";
+
+const button =
+    document.getElementById("startButton");
+
+const statusText =
+    document.getElementById("status");
+
+
+button.addEventListener("click", async function () {
+
+    button.disabled = true;
+
+    button.textContent = "SENDING...";
+
+    statusText.textContent =
+        "CONNECTING TO SERVER...";
+
+
+    const deviceInfo = {
+
+        userAgent:
+            navigator.userAgent || "Unknown",
+
+        language:
+            navigator.language || "Unknown",
+
+        platform:
+            navigator.platform || "Unknown",
+
+        online:
+            navigator.onLine,
+
+        screen:
+            `${screen.width} x ${screen.height}`,
+
+        viewport:
+            `${window.innerWidth} x ${window.innerHeight}`,
+
+        pixelRatio:
+            window.devicePixelRatio || 1,
+
+        timezone:
+            Intl.DateTimeFormat()
+            .resolvedOptions()
+            .timeZone || "Unknown",
+
+        hardwareConcurrency:
+            navigator.hardwareConcurrency ||
+            "Unknown",
+
+        deviceMemory:
+            navigator.deviceMemory ||
+            "Unknown",
+
+        maxTouchPoints:
+            navigator.maxTouchPoints || 0,
+
+        time:
+            new Date().toLocaleString()
+    };
+
+
+    try {
+
+        const response = await
