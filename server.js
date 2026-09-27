@@ -4,23 +4,17 @@ const path = require("path");
 require("dotenv").config();
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
-
 const WASENDER_TOKEN = process.env.WASENDER_TOKEN;
 
 // ==========================================================
-// CHECK ENVIRONMENT VARIABLES
+// ENVIRONMENT
 // ==========================================================
 
 if (!WASENDER_TOKEN) {
-console.error("=================================");
-console.error("ERROR: Missing WASENDER_TOKEN");
-console.error("Please set WASENDER_TOKEN in Render Environment Variables.");
-console.error("=================================");
-
-process.exit(1);
-
+    console.error("ERROR: Missing WASENDER_TOKEN.");
+    console.error("Set WASENDER_TOKEN in Render Environment Variables.");
+    process.exit(1);
 }
 
 // ==========================================================
@@ -28,21 +22,14 @@ process.exit(1);
 // ==========================================================
 
 app.use(cors());
-
-app.use(
-express.json({
-limit: "100kb"
-})
-);
+app.use(express.json({ limit: "100kb" }));
 
 // ==========================================================
-// HOME PAGE
+// HOME
 // ==========================================================
 
 app.get("/", (req, res) => {
-res.sendFile(
-path.join(__dirname, "index.html")
-);
+    res.sendFile(path.join(__dirname, "index.html"));
 });
 
 // ==========================================================
@@ -50,64 +37,52 @@ path.join(__dirname, "index.html")
 // ==========================================================
 
 app.get("/api/status", (req, res) => {
-res.json({
-success: true,
-service: "HZR 2010",
-status: "online"
-});
+    res.json({
+        success: true,
+        service: "HZR 2010",
+        status: "online"
+    });
 });
 
 // ==========================================================
 // WHATSAPP WEBHOOK
 // ==========================================================
 
-app.post("/api/whatsapp/webhook", async (req, res) => {
+app.post("/api/whatsapp/webhook", (req, res) => {
+    console.log("\n=================================");
+    console.log("HZR 2010 - WHATSAPP WEBHOOK");
+    console.log("=================================");
 
-console.log("");
-console.log("=================================");
-console.log("HZR 2010 - WHATSAPP WEBHOOK");
-console.log("=================================");
+    try {
+        const webhookData = req.body || {};
 
-try {
+        console.log("Webhook received:");
+        console.log(JSON.stringify(webhookData, null, 2));
 
-    const data = req.body || {};
+        res.status(200).json({
+            success: true,
+            received: true
+        });
 
-    console.log("Webhook received:");
-    console.log(JSON.stringify(data, null, 2));
+    } catch (error) {
+        console.error("Webhook processing error:", error);
 
-    // فعلاً هیچ پیامی حذف نمی‌شود.
-    // در مرحله بعد، پیام‌های گروه را از اینجا
-    // تشخیص می‌دهیم.
-
-    return res.status(200).json({
-        success: true,
-        received: true
-    });
-
-} catch (error) {
-
-    console.error("Webhook error:");
-    console.error(error);
-
-    return res.status(500).json({
-        success: false,
-        error: "Webhook processing failed"
-    });
-}
-
+        res.status(500).json({
+            success: false,
+            error: "Webhook processing failed"
+        });
+    }
 });
 
 // ==========================================================
-// 404
+// 404 HANDLER
 // ==========================================================
 
 app.use((req, res) => {
-
-res.status(404).json({
-    success: false,
-    error: "Not Found"
-});
-
+    res.status(404).json({
+        success: false,
+        error: "Not Found"
+    });
 });
 
 // ==========================================================
@@ -115,12 +90,9 @@ res.status(404).json({
 // ==========================================================
 
 app.listen(PORT, () => {
-
-console.log("=================================");
-console.log("HZR 2010");
-console.log(`Server running on port ${PORT}`);
-console.log("WhatsApp webhook:");
-console.log("/api/whatsapp/webhook");
-console.log("=================================");
-
+    console.log("=================================");
+    console.log("HZR 2010");
+    console.log(`Server running on port ${PORT}`);
+    console.log("WhatsApp webhook: /api/whatsapp/webhook");
+    console.log("=================================");
 });
