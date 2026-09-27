@@ -7,9 +7,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const WASENDER_TOKEN = process.env.WASENDER_TOKEN;
 
-// ===============================
-// CHECK ENVIRONMENT
-// ===============================
+// =====================================
+// ENVIRONMENT
+// =====================================
 
 if (!WASENDER_TOKEN) {
     console.error("ERROR: Missing WASENDER_TOKEN.");
@@ -17,24 +17,24 @@ if (!WASENDER_TOKEN) {
     process.exit(1);
 }
 
-// ===============================
+// =====================================
 // MIDDLEWARE
-// ===============================
+// =====================================
 
 app.use(cors());
 app.use(express.json({ limit: "100kb" }));
 
-// ===============================
+// =====================================
 // HOME
-// ===============================
+// =====================================
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// ===============================
+// =====================================
 // STATUS
-// ===============================
+// =====================================
 
 app.get("/api/status", (req, res) => {
     res.json({
@@ -44,15 +44,12 @@ app.get("/api/status", (req, res) => {
     });
 });
 
-// ===============================
+// =====================================
 // BAD WORDS
-// ===============================
+// =====================================
 
 const BAD_WORDS = [
-    // ===========================
     // فارسی
-    // ===========================
-
     "کون",
     "کونی",
     "کوس",
@@ -65,10 +62,7 @@ const BAD_WORDS = [
     "الاغ",
     "دیوانه",
 
-    // ===========================
     // English
-    // ===========================
-
     "fuck",
     "fucking",
     "fucked",
@@ -83,9 +77,9 @@ const BAD_WORDS = [
     "loser"
 ];
 
-// ===============================
-// TEXT NORMALIZATION
-// ===============================
+// =====================================
+// NORMALIZE TEXT
+// =====================================
 
 function normalizeText(text) {
     return String(text || "")
@@ -103,7 +97,7 @@ function normalizeText(text) {
         // Remove zero-width characters
         .replace(/[\u200B-\u200D\uFEFF]/g, "")
 
-        // Convert punctuation to spaces
+        // Replace punctuation with spaces
         .replace(/[.,!?;:()[\]{}"'،؛؟]/g, " ")
 
         // Normalize spaces
@@ -111,9 +105,9 @@ function normalizeText(text) {
         .trim();
 }
 
-// ===============================
+// =====================================
 // BAD WORD DETECTOR
-// ===============================
+// =====================================
 
 function containsBadWord(text) {
     const normalized = normalizeText(text);
@@ -127,68 +121,100 @@ function containsBadWord(text) {
     return BAD_WORDS.some(word => {
         const badWord = normalizeText(word);
 
-        // English words
+        // English
         if (/^[a-z0-9]+$/i.test(badWord)) {
             const pattern = new RegExp(`\\b${badWord}\\b`, "i");
             return pattern.test(normalized);
         }
 
-        // Persian words / phrases
+        // Persian phrase
         if (badWord.includes(" ")) {
             return normalized.includes(badWord);
         }
 
+        // Persian single word
         return words.includes(badWord);
     });
 }
 
-// ===============================
+// =====================================
 // DELETE WHATSAPP MESSAGE
-// ===============================
+// =====================================
 
-async function deleteWhatsAppMessage(messageId) {
-    if (!messageId) {
-        console.error("Cannot delete message: missing message ID.");
+async function deleteWhatsAppMessage(messageId, chatId) {
+
+    if (!messageId || !chatId) {
+        console.error(
+            "DELETE FAILED: Missing message ID or chat ID."
+        );
         return false;
     }
 
+    const url =
+        `https://api.wasender.dev/messages/${encodeURIComponent(messageId)}`;
+
+    console.log("---------------------------------");
+    console.log("DELETE REQUEST");
+    console.log("Message ID:", messageId);
+    console.log("Chat ID:", chatId);
+    console.log("URL:", url);
+
     try {
-        const response = await fetch(
-            `https://api.wasender.dev/messages/${encodeURIComponent(messageId)}`,
-            {
-                method: "DELETE",
-                headers: {
-                    "Authorization": `Bearer ${WASENDER_TOKEN}`
-                }
-            }
-        );
 
-        const resultText = await response.text();
+        const response = await fetch(url, {
+            method: "DELETE",
 
-        if (!response.ok) {
-            console.error(
-                "Wasender delete failed:",
-                response.status,
-                resultText
+            headers: {
+                "Authorization": `Bearer ${WASENDER_TOKEN}`,
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+
+            body: JSON.stringify({
+                to: chatId
+            })
+        });
+
+        const responseText = await response.text();
+
+        console.log("DELETE STATUS:", response.status);
+        console.log("DELETE RESPONSE:", responseText);
+
+        if (response.ok) {
+
+            console.log(
+                "MESSAGE DELETED SUCCESSFULLY"
             );
 
-            return false;
+            console.log("---------------------------------");
+
+            return true;
         }
 
-        console.log("MESSAGE DELETED SUCCESSFULLY");
-        console.log("Message ID:", messageId);
+        console.error(
+            "MESSAGE DELETE FAILED"
+        );
 
-        return true;
+        console.log("---------------------------------");
+
+        return false;
 
     } catch (error) {
-        console.error("Delete request error:", error);
+
+        console.error(
+            "DELETE REQUEST ERROR:",
+            error
+        );
+
+        console.log("---------------------------------");
+
         return false;
     }
 }
 
-// ===============================
+// =====================================
 // WHATSAPP WEBHOOK
-// ===============================
+// =====================================
 
 app.post("/api/whatsapp/webhook", async (req, res) => {
 
@@ -197,12 +223,24 @@ app.post("/api/whatsapp/webhook", async (req, res) => {
     console.log("=================================");
 
     try {
+
         const data = req.body || {};
 
-        // Only process message events
         const messages = Array.isArray(data.messages)
             ? data.messages
             : [];
+
+        if (messages.length === 0) {
+
+            console.log(
+                "No messages in webhook."
+            );
+
+            return res.status(200).json({
+                success: true,
+                received: true
+            });
+        }
 
         for (const message of messages) {
 
@@ -211,7 +249,7 @@ app.post("/api/whatsapp/webhook", async (req, res) => {
                 continue;
             }
 
-            // Ignore messages sent by our own WhatsApp number
+            // Ignore our own messages
             if (message.from_me === true) {
                 continue;
             }
@@ -223,26 +261,52 @@ app.post("/api/whatsapp/webhook", async (req, res) => {
 
             const text = message.text?.body || "";
 
-            console.log("\nGroup message:");
+            console.log("\nGROUP MESSAGE");
             console.log("Group:", message.chat_id);
             console.log("From:", message.phone);
             console.log("Text:", text);
             console.log("Message ID:", message.id);
 
-            // ===========================
+            // =================================
             // CHECK BAD WORD
-            // ===========================
+            // =================================
 
             if (containsBadWord(text)) {
 
-                console.log("!!! BAD WORD DETECTED !!!");
+                console.log("");
+                console.log(
+                    "!!! BAD WORD DETECTED !!!"
+                );
 
-                // Delete message
-                await deleteWhatsAppMessage(message.id);
+                console.log(
+                    "Sender:",
+                    message.phone
+                );
+
+                console.log(
+                    "Text:",
+                    text
+                );
+
+                console.log(
+                    "Message ID:",
+                    message.id
+                );
+
+                // =================================
+                // DELETE MESSAGE
+                // =================================
+
+                await deleteWhatsAppMessage(
+                    message.id,
+                    message.chat_id
+                );
 
             } else {
 
-                console.log("Message is clean.");
+                console.log(
+                    "Message is clean."
+                );
             }
         }
 
@@ -254,7 +318,7 @@ app.post("/api/whatsapp/webhook", async (req, res) => {
     } catch (error) {
 
         console.error(
-            "Webhook processing error:",
+            "WEBHOOK PROCESSING ERROR:",
             error
         );
 
@@ -265,27 +329,31 @@ app.post("/api/whatsapp/webhook", async (req, res) => {
     }
 });
 
-// ===============================
+// =====================================
 // 404
-// ===============================
+// =====================================
 
 app.use((req, res) => {
+
     res.status(404).json({
         success: false,
         error: "Not Found"
     });
 });
 
-// ===============================
+// =====================================
 // START SERVER
-// ===============================
+// =====================================
 
 app.listen(PORT, () => {
 
     console.log("=================================");
     console.log("HZR 2010");
-    console.log(`Server running on port ${PORT}`);
-    console.log("WhatsApp webhook:");
-    console.log("/api/whatsapp/webhook");
+    console.log(
+        `Server running on port ${PORT}`
+    );
+    console.log(
+        "WhatsApp webhook: /api/whatsapp/webhook"
+    );
     console.log("=================================");
 });
